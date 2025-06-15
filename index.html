@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Informações do Animal</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #fff; }
+    #info { display: none; border: 1px solid #ccc; padding: 20px; margin-top: 20px; background: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <h1>Esperando leitura do chip...</h1>
+
+  <div id="info">
+    <h2>Dados do Animal</h2>
+    <p><strong>Nome:</strong> Rex</p>
+    <p><strong>Espécie:</strong> Cachorro</p>
+    <p><strong>Idade:</strong> 5 anos</p>
+    <p><strong>ID do Chip:</strong> 123456789ABC</p>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_PROJETO.firebaseapp.com",
+      databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
+      projectId: "SEU_PROJETO",
+      storageBucket: "SEU_PROJETO.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    const ref = database.ref('nfc');
+    ref.on('value', (snapshot) => {
+      const data = snapshot.val();
+      if (data && data.status === 'lido') {
+        document.querySelector('h1').innerText = "Chip detectado!";
+        document.getElementById('info').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
